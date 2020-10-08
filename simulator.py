@@ -1,12 +1,9 @@
 import numpy as np 
- 
-def create_envs(mapSize):
-    create_obs(envs)
 
 def dist(p1,p2):
     return np.linalg.norm(np.subtract(p1,p2))
 
-def collide_detection_detail(p,c,r):
+def collide_laser_bot(p,c,r):
     flag = False
     p1,p2 = p[0], p[1]    
     v =  np.subtract(p1,p2)
@@ -19,21 +16,28 @@ def collide_detection_detail(p,c,r):
         flag = True 
     return flag 
 
+class Environment():
+    def __init__(self, mapSize):
+        self.mapsize = mapsize 
+        
+    def add_obs(self, p1, p2):
+        
+    def add_bot(self, p_swarm, n_bot):
+        
+        
+        
+        
+        
+
 if __name__ =="__main__":
+    # Parameter setting 
+    mapSize =(1920,1200) 
+    n_bot = 100 
+    n_sampling = 20
+    p_init = (10,10)
+    p_goal = (50,1000)    
+    p_swarm = np.random.randint(30, size=(2,n_bot))
     
     # Create simulation environment 
-    envs = create_envs(mapSize) # func create_envs including func create_obstacle 
+    envs = Environment(mapSize) # func create_envs including func create_obstacle 
     
-    # Path finding (RRT star) 
-    path = create_path(envs, p_init, p_goal)
-    
-    # object 위치 following도 동시에 진행해야함. 
-    while True: 
-        mean_swarm, dev_swarm = sampling(p_swarm, n_sampling, n_bot) 
-        if dev_swarm > eps_dev:
-            move_gather(mean_swarm)
-        else:
-            closet = search_closet(mean_swarm, path) 
-            if dist(path[-1], mean_swarm)< eps_mean:
-                break
-            move_proceed(closet, mean_swarm)
