@@ -51,7 +51,6 @@ def drawField(win):
     pygame.draw.line(win, colorWall, (10,510), (510,510), 10)
     pygame.draw.line(win, colorWall, (510,510), (510,10), 10)
     pygame.draw.line(win, colorWall, (510,10), (10,10), 10)
-    # obstacle wall 추가 필요
     # map 크기 확장 필요
     
 def randomBots(range, n=30,center=(10,10),sigma=1): # randomly set n number of robots in the field 
