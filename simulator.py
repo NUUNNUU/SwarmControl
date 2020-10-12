@@ -13,31 +13,33 @@ class Environment():
         # angle = ["laser", "obstacle":0 ,"robot": angle[0~pi)]
                 
     def add_obs(self, p1, p2):
-        # p1,p2는 square block의 꼭지점 
-        # obs = [kind, p_center, size, angle]
+        # p1,p2는 square block의 꼭지점
+        obs = [2,p1,p2,0]
         self.objects.append(obs)
         
     def add_bot(self, p_init, n_bot, ranges=2, size=250 ):
         # initial point 근처에 랜덤하게 로봇 생성
-        centers  = np.random.randint(p_init,p_init+ranges, size=(2,n_bot))
+        centers = np.random.randint(p_init,p_init+ranges, size=(2,n_bot))
         angles = np.random.randint(np.pi, size=(n_bot))
         for c,a in (centers, angles):
             self.objects.append([1,c,size,a])
         
     def move_laser(self, p_start, p_end):
-        tic = 1 # laser scan speed
-        vel = np.subtract(p_end,p_start)
-        self.vel = np.mul(vel)*(tic/np.norm(vel)) 
+        scan_speed = 80 # laser scan speed
+        tic = 100       # tic
+        disp = np.subtract(p_end,p_start)     # laser displacement
+        times = np.norm(disp)*tic//scan_speed
+        self.vel = np.multiply(vec,1/times)   # laser displacement per 1 tic
         p_laser = p_start
-        while True:
+        for _ in range(times):
             if collide_check_lb(p_laser):                
-                push_lb()
+                push_lb() # laser pushes robots
                 if collide_check_bb():
-                    push_bb()                    
+                    push_bb() # robot pushes other robot                   
             p_laser +=vel
                 
-    def push_lb(self):
-    def push_bb(self):
+    def push_lb(self): # laser pushes robots
+    def push_bb(self): # robot pushes other robot
     def collide_check_lb(self, p_laser):
     def collide_check_bb(self):
     def collide_check_ob(self):
@@ -60,5 +62,3 @@ class Environment():
 
 def dist(p1,p2):
     return np.linalg.norm(np.subtract(p1,p2))
-
-    
