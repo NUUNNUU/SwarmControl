@@ -28,6 +28,7 @@ class Robot():
         self.vector   = vec
         self.length   = len
         self.width    = wth 
+        self.collide  = False
     #
     def posture(self):
         center = self.position
@@ -89,15 +90,17 @@ def colBB(bot1, bot2):
     bot1Model = bot1.model()
     bot2Model = bot2.model()
     disMargin = max(bot1.width, bot2.width)
-    if bot1.collide != True || bot2.collide != True:
+    if bot1.collide != True or bot2.collide != True:
+        print("go")
         for i in range(len(bot1Model)):
             for j in range(len(bot2Model)):
                 if distance(bot1Model[i], bot2Model[j]) < disMargin:
                     bot1.collide = True
                     bot2.collide = True
-                    break
-    else: return
-#
+                    print("They collide")
+                    return
+        print("They don't collide")
+    else: return#
 def colLB(laser, bot): # detect collision between laser and bot
     pass
 
